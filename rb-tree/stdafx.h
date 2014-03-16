@@ -20,6 +20,9 @@
 #include <vector>
 #include <iterator>
 #include <iostream>
+#include <memory>
+#include <functional>
+#include <iomanip>
 
 
 

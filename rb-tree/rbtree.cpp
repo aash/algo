@@ -57,7 +57,7 @@ void bstree::clear_bfs() {
     while (!q.empty()) {
         int sz = q.size();
         for (int i = 0; i < sz; i++) {
-            btnode *c = q.back();
+            btnode *c = q.front();
             q.pop();
             if (c->l != nullptr)
                 q.push(c->l);
@@ -103,7 +103,6 @@ void bstree::insert(int n) {
         _root->l = _root->r = nullptr;
         _root->key = n;
     }
-    _values.insert(n);
     _size += 1;
 }
 
@@ -125,7 +124,7 @@ void bstree::remove(int n) {
                 (n <= p->key ? p->l : p->r) = (c->r != nullptr) ? c->r : c->l;
             }
             else {
-                _root = c->r;
+                _root = (c->r != nullptr) ? c->r : c->l;
             }
             if (c->l != nullptr && c->r != nullptr) {
                 int m = c->l->key;
@@ -144,7 +143,6 @@ void bstree::remove(int n) {
                     cl->r = c->l;
                 }
             }
-            _values.erase(n);
             _size -= 1;
             delete c;
         }
@@ -178,4 +176,60 @@ bool bstree::check() {
 
 size_t bstree::size() {
     return _size;
+}
+
+shared_ptr<vector<bstree::btnode*>> bstree::bfs() {
+    using std::queue;
+    using std::shared_ptr;
+    using std::make_shared;
+    if (_root == nullptr)
+        return shared_ptr<vector<bstree::btnode*>>();
+    vector<bstree::btnode*> v;
+    queue<btnode*> q;
+    q.push(_root);
+    while (!q.empty()) {
+        int sz = q.size();
+        for (int i = 0; i < sz; i++) {
+            btnode *c = q.front();
+            q.pop();
+            v.push_back(c);
+            if (c->l != nullptr)
+                q.push(c->l);
+            if (c->r != nullptr)
+                q.push(c->r);
+        }
+    }
+    return make_shared<vector<bstree::btnode*>>(v);
+}
+
+void bstree::print(int indent, btnode *n) {
+    using std::cout;
+    using std::setw;
+    if (_root == nullptr)
+        return;
+    if (n == nullptr)
+        n = _root;
+    if (indent != 0)
+        cout << setw(indent) << ' ';
+    cout << n->key << '\n';
+    if (n->l != nullptr)
+        print(indent + tabsize, n->l);
+    if (n->r != nullptr)
+        print(indent + tabsize, n->r);
+}
+
+void generate_full_tree(int h, bstree *t, int a = 0, int b = 0) {
+    assert(h < 16);
+    if (h == 0 || a > b)
+        return;
+    if (b == 0) {
+        b = (1 << h) - 1;
+        a = 1;
+    }
+    int m = (b + a) / 2;
+    t->insert(m);
+    if (h > 1) {
+        generate_full_tree(h - 1, t, a, m - 1);
+        generate_full_tree(h - 1, t, m + 1, b);
+    }
 }

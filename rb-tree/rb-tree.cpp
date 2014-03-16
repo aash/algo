@@ -2,43 +2,62 @@
 #include "stdafx.h"
 #include "rbtree.h"
 
-void generate_full_tree(int h, bstree *t, int a = 0, int b = 0) {
-    assert(h < 16);
-    if (h == 0 || a > b)
-        return;
-    if (b == 0) {
-        b = (1 << h) - 1;
-        a = 1;
+using std::vector;
+using std::transform;
+using std::mt19937;
+using std::random_device;
+using std::shared_ptr;
+using std::mem_fun_ref;
+using std::mem_fun;
+using std::cout;
+using std::for_each;
+using std::ptr_fun;
+
+struct deref {
+    int operator() (bstree::btnode *n) {
+        return n->key;
     }
-    int m = (b + a) / 2;
-    t->insert(m);
-    if (h > 1) {
-        generate_full_tree(h - 1, t, a, m - 1);
-        generate_full_tree(h - 1, t, m + 1, b);
-    }
-}
+};
 
 int main(int argc, char* argv[])
 {
     const int n = 10;
     bstree bst;
 
-    generate_full_tree(3, &bst);
+    generate_full_tree(4, &bst);
+    //int d[] = { 15, 10, 6 };
+    //bst.insert(15);
+    //bst.insert(10);
+    //bst.insert(6);
+    bst.print();
     assert(bst.check());
 
-    std::random_device rd;
-    std::mt19937 g(rd());
+    //bst.remove(15);
+    //bst.print();
+    //assert(bst.check());
 
-    std::vector<int> v;
-    std::copy(bst.values().begin(), bst.values().end(), std::back_inserter(v));
+#define QWE
+#ifdef QWE
+    random_device rd;
+    mt19937 g(rd());
+
+    vector<int> v;
+
+    shared_ptr<vector<bstree::btnode*>> sv = bst.bfs();
+
+    transform(sv->begin(), sv->end(), back_inserter(v), mem_fun(&bstree::btnode::get_key));
     std::shuffle(v.begin(), v.end(), g);
 
-    while (v.size() != 0) {
+    int i = 4;
+    while (bst.size() != 0) {
         bst.remove(v.back());
+        cout << "--------------------------------------\n";
+        cout << "remove " << v.back() << "\n";
+        bst.print();
         assert(bst.check());
-        std::cout << v.back() << "\n";
         v.pop_back();
     }
+#endif
     //for (int i = 0; i < n; i++) {
     //    bst.insert(i);
     //}

@@ -2,18 +2,19 @@
 #ifndef RBTREE_H
 #define RBTREE_H
 
-using std::set;
+using std::vector;
+using std::shared_ptr;
 
 class bstree {
 
-
+public:
     struct btnode {
+        int key;
         btnode *l;
         btnode *r;
-        int key;
+        int get_key() const { return key; }
     };
 
-public:
     bstree();
     ~bstree();
 
@@ -21,14 +22,15 @@ public:
     void clear_bfs();
     void insert(int n);
     void remove(int n);
+    shared_ptr<vector<btnode*>> bfs();
     bool check();
     size_t size();
-    const set<int>& values() { return _values; }
+    void print(int indent = 0, btnode *n = nullptr);
 
 private:
     btnode *_root;
     size_t _size;
-    set<int> _values;
+    const int tabsize = 4;
 };
 
 class rb_tree {
@@ -36,5 +38,7 @@ public:
     rb_tree();
     ~rb_tree();
 };
+
+void generate_full_tree(int h, bstree *t, int a = 0, int b = 0);
 
 #endif
