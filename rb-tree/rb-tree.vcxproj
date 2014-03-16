@@ -76,11 +76,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="bstree.h" />
     <ClInclude Include="rbtree.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="bstree.cpp" />
     <ClCompile Include="rb-tree.cpp" />
     <ClCompile Include="rbtree.cpp" />
     <ClCompile Include="stdafx.cpp">
