@@ -33,4 +33,6 @@ private:
     const int tabsize = 4;
 };
 
+void generate_full_tree(int h, bstree *t, int a = 0, int b = 0);
+
 #endif

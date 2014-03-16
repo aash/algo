@@ -1,5 +1,6 @@
 
 #include "stdafx.h"
+#include "bstree.h"
 #include "rbtree.h"
 
 using std::vector;
