@@ -22,6 +22,7 @@ namespace algo {
 
         void clear_dfs();
         void clear_bfs();
+        btnode* search(int n);
         void insert(int n);
         void remove(int n);
         shared_ptr<vector<btnode*>> bfs();

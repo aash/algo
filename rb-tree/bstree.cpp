@@ -72,6 +72,22 @@ namespace algo {
         assert(size() == 0);
     }
 
+    bstree::btnode* bstree::search(int n) {
+        if (_root != nullptr) {
+            assert(_size != 0);
+            btnode *c = _root;
+            while (
+                (n < c->key && c->l != nullptr) ||
+                (n > c->key && c->r != nullptr)) {
+                c = (n <= c->key) ? c->l : c->r;
+            }
+            return c->key == n ? c : nullptr;
+        }
+        else
+            return nullptr;
+
+    }
+
     //
     // O(h)
     //
