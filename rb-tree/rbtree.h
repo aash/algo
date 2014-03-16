@@ -4,10 +4,14 @@
 
 #include "bstree.h"
 
-class rbtree: public bstree {
-public:
-    rbtree();
-    ~rbtree();
-};
+namespace algo {
+
+    class rbtree : public bstree {
+    public:
+        //rbtree();
+        //~rbtree();
+    };
+
+}
 
 #endif
