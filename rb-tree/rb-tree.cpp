@@ -2,19 +2,20 @@
 #include "stdafx.h"
 #include "rbtree.h"
 
-void generate_full_tree(int h, bstree &t, int a = 0, int b = 0) {
+void generate_full_tree(int h, bstree *t, int a = 0, int b = 0) {
     assert(h < 16);
-    assert(a <= b && b - a <= 1 << h);
-    if (h == 0)
+    if (h == 0 || a > b)
         return;
     if (b == 0) {
-        b = 1 << h;
-        a = 0;
+        b = (1 << h) - 1;
+        a = 1;
     }
     int m = (b + a) / 2;
-    t.insert(m);
-    generate_full_tree(h - 1, t, a, m);
-    generate_full_tree(h - 1, t, m, b);
+    t->insert(m);
+    if (h > 1) {
+        generate_full_tree(h - 1, t, a, m - 1);
+        generate_full_tree(h - 1, t, m + 1, b);
+    }
 }
 
 int main(int argc, char* argv[])
@@ -22,7 +23,7 @@ int main(int argc, char* argv[])
     const int n = 10;
     bstree bst;
 
-    generate_full_tree(3, bst);
+    generate_full_tree(3, &bst);
     assert(bst.check());
 
     std::random_device rd;
