@@ -12,9 +12,13 @@ namespace algo {
     public:
         struct btnode {
             int key;
-            btnode *l;
-            btnode *r;
+            btnode* l;
+            btnode* r;
             int get_key() const { return key; }
+            btnode*& resolve(btnode* x) {
+                assert(l == x || r == x);
+                return l == x ? l : r;
+            }
         };
 
         bstree();
@@ -28,15 +32,15 @@ namespace algo {
         shared_ptr<vector<btnode*>> bfs();
         bool check();
         size_t size();
-        void print(int indent = 0, btnode *n = nullptr);
+        void print(int indent = 0, btnode* n = nullptr);
 
     private:
-        btnode *_root;
+        btnode* _root;
         size_t _size;
         const int tabsize = 4;
     };
 
-    void generate_full_tree(int h, bstree *t, int a = 0, int b = 0);
+    void generate_full_tree(int h, bstree* t, int a = 0, int b = 0);
 
 }
 

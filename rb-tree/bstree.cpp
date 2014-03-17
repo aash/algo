@@ -25,8 +25,8 @@ namespace algo {
         s.push(make_pair(nullptr, _root));
         while (!s.empty()) {
             bool del = true;
-            btnode *p = s.top().first;
-            btnode *c = s.top().second;
+            btnode* p = s.top().first;
+            btnode* c = s.top().second;
             if (c->l != nullptr) {
                 del = false;
                 s.push(make_pair(c, c->l));
@@ -59,7 +59,7 @@ namespace algo {
         while (!q.empty()) {
             int sz = q.size();
             for (int i = 0; i < sz; i++) {
-                btnode *c = q.front();
+                btnode* c = q.front();
                 q.pop();
                 if (c->l != nullptr)
                     q.push(c->l);
@@ -75,7 +75,7 @@ namespace algo {
     bstree::btnode* bstree::search(int n) {
         if (_root != nullptr) {
             assert(_size != 0);
-            btnode *c = _root;
+            btnode* c = _root;
             while (
                 (n < c->key && c->l != nullptr) ||
                 (n > c->key && c->r != nullptr)) {
@@ -94,7 +94,7 @@ namespace algo {
     void bstree::insert(int n) {
         if (_root != nullptr) {
             assert(_size != 0);
-            btnode *c = _root;
+            btnode* c = _root;
             while (
                 (n <= c->key && c->l != nullptr) ||
                 (n > c->key && c->r != nullptr)) {
@@ -130,7 +130,8 @@ namespace algo {
     void bstree::remove(int n) {
         if (_root != nullptr) {
             assert(_size != 0);
-            btnode *c = _root, *p = nullptr;
+            btnode* c = _root;
+            btnode* p = nullptr;
             while (
                 (n < c->key && c->l != nullptr) ||
                 (n > c->key && c->r != nullptr)) {
@@ -146,7 +147,7 @@ namespace algo {
                 }
                 if (c->l != nullptr && c->r != nullptr) {
                     int m = c->l->key;
-                    btnode *cl = c->r;
+                    btnode* cl = c->r;
                     while (
                         (m <= cl->key && cl->l != nullptr) ||
                         (m > cl->key && cl->r != nullptr)) {
@@ -175,7 +176,7 @@ namespace algo {
         while (!q.empty()) {
             int sz = q.size();
             for (int i = 0; i < sz; i++) {
-                btnode *c = q.back();
+                btnode* c = q.back();
                 q.pop();
                 if (c->l != nullptr) {
                     if (c->l->key > c->key)
@@ -208,7 +209,7 @@ namespace algo {
         while (!q.empty()) {
             int sz = q.size();
             for (int i = 0; i < sz; i++) {
-                btnode *c = q.front();
+                btnode* c = q.front();
                 q.pop();
                 v.push_back(c);
                 if (c->l != nullptr)
@@ -220,7 +221,7 @@ namespace algo {
         return make_shared<vector<bstree::btnode*>>(v);
     }
 
-    void bstree::print(int indent, btnode *n) {
+    void bstree::print(int indent, btnode* n) {
         using std::cout;
         using std::setw;
         if (_root == nullptr)
@@ -236,7 +237,7 @@ namespace algo {
             print(indent + tabsize, n->r);
     }
 
-    void generate_full_tree(int h, bstree *t, int a, int b) {
+    void generate_full_tree(int h, bstree* t, int a, int b) {
         assert(h < 16);
         if (h == 0 || a > b)
             return;

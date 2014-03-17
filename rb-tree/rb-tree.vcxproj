@@ -77,6 +77,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="bstree.h" />
+    <ClInclude Include="lest.hpp" />
     <ClInclude Include="rbtree.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
