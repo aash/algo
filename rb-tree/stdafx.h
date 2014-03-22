@@ -3,9 +3,8 @@
 // are changed infrequently
 //
 
-#pragma once
-
-#include "targetver.h"
+#ifndef STDAFX_H
+#define STDAFX_H
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -24,6 +23,4 @@
 #include <functional>
 #include <iomanip>
 
-
-
-// TODO: reference additional headers your program requires here
+#endif // #ifdef STDAFX_H

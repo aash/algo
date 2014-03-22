@@ -6,16 +6,16 @@
 
 const lest::test spec[] =
 {
-    "algo::bstree constructed full tree satisfies bst rules", [] {
+    "algo::rbtree constructed full tree satisfies bst rules", [] {
         EXPECT([]{
-            using algo::bstree;
-            using algo::generate_full_tree;
-            bstree t;
-            generate_full_tree(4, &t);
-            return t.check();
+            using algo::rbtree;
+            using algo::rbtnode;
+            rbtree<rbtnode> t;
+            rbtree<rbtnode>::generate_full_tree(4, &t);
+            return t.check_bst();
         }())
     },
-    "algo::bstree remove operation is correct", [] {
+    "algo::rbtree remove operation is correct", [] {
         EXPECT([]{
             using std::mem_fun;
             using std::shared_ptr;
@@ -24,19 +24,20 @@ const lest::test spec[] =
             using std::vector;
             using std::mt19937;
             using std::random_device;
-            using algo::bstree;
-            using algo::generate_full_tree;
-            bstree bst;
-            generate_full_tree(4, &bst);
+            using algo::rbtree;
+            using algo::rbtnode;
+            rbtree<rbtnode> bst;
+            rbtree<rbtnode>::generate_full_tree(4, &bst);
             random_device rd;
             mt19937 g(rd());
             vector<int> v;
-            shared_ptr<vector<bstree::btnode*>> sv = bst.bfs();
-            transform(sv->begin(), sv->end(), back_inserter(v), mem_fun(&bstree::btnode::get_key));
+            shared_ptr<vector<rbtnode*>> sv = bst.bfs();
+            transform(sv->begin(), sv->end(), back_inserter(v),
+                mem_fun(&rbtnode::get_key));
             shuffle(v.begin(), v.end(), g);
             while (v.size() != 0) {
                 bst.remove(v.back());
-                assert(bst.check());
+                assert(bst.check_bst());
                 v.pop_back();
             }
             return bst.size() == 0;
@@ -52,22 +53,11 @@ const lest::test spec[] =
             using std::mt19937;
             using std::random_device;
             using algo::rbtree;
-            using algo::bstree;
-            using algo::generate_full_tree;
-            rbtree bst;
-            generate_full_tree(4, &bst);
-            random_device rd;
-            mt19937 g(rd());
-            vector<int> v;
-            shared_ptr<vector<bstree::btnode*>> sv = bst.bfs();
-            transform(sv->begin(), sv->end(), back_inserter(v), mem_fun(&bstree::btnode::get_key));
-            shuffle(v.begin(), v.end(), g);
-            while (v.size() != 0) {
-                bst.remove(v.back());
-                assert(bst.check());
-                v.pop_back();
-            }
-            return bst.size() != 0;
+            using algo::rbtnode;
+            rbtree<rbtnode> bst;
+            rbtree<rbtnode>::generate_full_tree(4, &bst);
+            //bst.rotate_left();
+            return bst.check_bst();
         }())
     }
 };
