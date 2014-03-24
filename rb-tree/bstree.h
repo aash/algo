@@ -23,7 +23,7 @@ namespace algo {
 
     public:
 
-        typedef T tree_node;
+        typedef typename T tree_node;
 
         bstree() : _root(nullptr) {}
         ~bstree() { clear_bfs(); }
@@ -34,9 +34,10 @@ namespace algo {
         void clear_dfs();
         void clear_bfs();
         tree_node* search(int n);
-        void insert(int n);
+        virtual tree_node* insert(int n);
         void remove(int n);
-        shared_ptr<vector<tree_node*>> bfs();
+        //shared_ptr<vector<tree_node*>> bfs();
+        const vector<tree_node*>& bfs();
         bool check_bst();
         void print(int indent = 0, tree_node* n = nullptr);
         static void generate_full_tree(int h, bstree<tree_node>* t, int a = 0, int b = 0);
@@ -93,12 +94,12 @@ namespace algo {
         using std::queue;
         if (_root == nullptr)
             return;
-        queue<T*> q;
+        queue<tree_node*> q;
         q.push(_root);
         while (!q.empty()) {
             int sz = q.size();
             for (int i = 0; i < sz; i++) {
-                T* c = q.front();
+                tree_node* c = q.front();
                 q.pop();
                 if (c->l != nullptr)
                     q.push(c->l);
@@ -115,10 +116,11 @@ namespace algo {
     // O(h)
     //
     template<typename T>
-    void bstree<T>::insert(int n) {
+    T* bstree<T>::insert(int n) {
+        tree_node* c = nullptr;
         if (_root != nullptr) {
+            c = _root;
             assert(_size != 0);
-            tree_node* c = _root;
             while (
                 (n <= c->key && c->l != nullptr) ||
                 (n > c->key && c->r != nullptr)) {
@@ -141,11 +143,14 @@ namespace algo {
         }
         else {
             assert(_size == 0);
-            _root = new tree_node;
-            _root->l = _root->r = nullptr;
-            _root->key = n;
+            c = new tree_node;
+            c->l = c->r = nullptr;
+            c->key = n;
+            _root = c;
         }
         _size += 1;
+        assert(c != nullptr);
+        return c;
     }
 
     template<typename T>
@@ -175,7 +180,7 @@ namespace algo {
     }
 
     template<typename T>
-    shared_ptr<vector<T*>> bstree<T>::bfs() {
+    const typename vector<T*>& bstree<T>::bfs() {
         using std::queue;
         using std::shared_ptr;
         using std::make_shared;
@@ -245,7 +250,7 @@ namespace algo {
     }
 
     template<typename T>
-    T* bstree<T>::search(int n) {
+    typename bstree<T>::tree_node* bstree<T>::search(int n) {
         if (_root != nullptr) {
             assert(_size != 0);
             tree_node* c = _root;

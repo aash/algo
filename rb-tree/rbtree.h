@@ -26,6 +26,8 @@ namespace algo {
         void rotate_left(tree_node* x, tree_node* p);
         void rotate_right(tree_node* y, tree_node* p);
 
+        virtual tree_node* insert(int n);
+
     };
 
     //   (x)   rotate_left  (y)
@@ -58,6 +60,15 @@ namespace algo {
             y->l = x->r;
             x->r = y;
         }
+    }
+
+    template<typename T>
+    typename rbtree<T>::tree_node* rbtree<T>::insert(int n) {
+        // after inserting of red node it may have red parent
+        tree_node* c = bstree<T>::insert(n);
+
+        // so we consider a several cases here
+        return c;
     }
 
 }

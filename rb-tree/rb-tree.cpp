@@ -64,5 +64,10 @@ const lest::test spec[] =
 
 int main(int argc, char* argv[])
 {
-    return lest::run(spec);
+    using std::cout;
+    int failures = lest::run(spec);
+    if (failures == 0) {
+        cout << "tests passed\n";
+    }
+    return (failures == 0) ? 0 : 1;
 }
